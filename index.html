@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShyamUniverse AI</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #101126;
+      color: white;
+      text-align: center;
+      padding: 30px 15px;
+    }
+    .box {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 25px;
+      border-radius: 20px;
+      background: #20213e;
+    }
+    h1 { color: #a8b4ff; }
+    textarea {
+      width: 95%;
+      height: 130px;
+      padding: 10px;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+    button {
+      margin: 10px 5px;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 10px;
+      background: #7c83ff;
+      color: white;
+      font-size: 16px;
+    }
+    #output { white-space: pre-wrap; text-align: left; }
+  </style>
+</head>
+<body>
+  <h1>🌌 ShyamUniverse AI</h1>
+  <p>आपका अपना AI Creator Studio</p>  <div class="box">
+    <h2>✨ AI Script Studio</h2>
+    <p>अपने वीडियो का विषय लिखें:</p>
+    <textarea id="topic" placeholder="जैसे: अंतरिक्ष के 5 रहस्य"></textarea>
+    <br>
+    <button onclick="makeScript()">स्क्रिप्ट बनाएँ</button>
+    <button onclick="speakScript()">आवाज़ सुनें</button>
+    <div id="output"></div>
+  </div>  <script>
+    function makeScript() {
+      const topic = document.getElementById("topic").value.trim();
+      if (!topic) {
+        alert("पहले वीडियो का विषय लिखें!");
+        return;
+      }
+      document.getElementById("output").textContent =
+        "नमस्कार दोस्तों! स्वागत है ShyamUniverse AI में।\n\n" +
+        "आज हम जानेंगे: " + topic + "\n\n" +
+        "इस वीडियो में हम इस विषय को आसान भाषा में समझेंगे। " +
+        "वीडियो को अंत तक देखिए, क्योंकि आगे आपको कुछ रोचक बातें जानने को मिलेंगी।\n\n" +
+        "अगर वीडियो पसंद आए, तो चैनल को सब्सक्राइब करना न भूलें। धन्यवाद!";
+    }
+
+    function speakScript() {
+      const text = document.getElementById("output").textContent;
+      if (!text) {
+        alert("पहले स्क्रिप्ट बनाएँ!");
+        return;
+      }
+      const voice = new SpeechSynthesisUtterance(text);
+      voice.lang = "hi-IN";
+      speechSynthesis.cancel();
+      speechSynthesis.speak(voice);
+    }
+  </script></body>
+</html>
