@@ -77,3 +77,123 @@
     }
   </script></body>
 </html>
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShyamUniverse AI</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #0b1020;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 650px;
+      margin: 30px auto;
+      padding: 22px;
+      background: #171f35;
+      border-radius: 18px;
+    }
+    h1 { color: #7cddff; }
+    p { line-height: 1.6; color: #d3d9e8; }
+    input, select, textarea, button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 13px;
+      border-radius: 9px;
+      border: 1px solid #45516d;
+      font-size: 16px;
+    }
+    input, select, textarea {
+      background: #0b1020;
+      color: white;
+    }
+    button {
+      background: #39b8e8;
+      color: #08111f;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    #result {
+      white-space: pre-wrap;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌌 ShyamUniverse AI</h1>
+    <p>अपने YouTube वीडियो के लिए हिंदी स्क्रिप्ट तैयार करें।</p>
+
+    <label>वीडियो का विषय</label>
+    <input id="topic" placeholder="जैसे: AI से पैसे कैसे कमाएँ">
+
+    <label>वीडियो का प्रकार</label>
+    <select id="style">
+      <option>जानकारी देने वाला</option>
+      <option>रोचक कहानी</option>
+      <option>मोटिवेशन</option>
+      <option>टेक्नोलॉजी</option>
+    </select>
+
+    <label>वीडियो की अवधि</label>
+    <select id="duration">
+      <option value="1">1 मिनट</option>
+      <option value="5">5 मिनट</option>
+      <option value="10">10 मिनट</option>
+    </select>
+
+    <button id="generate">स्क्रिप्ट बनाएँ</button>
+
+    <p id="status"></p>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const button = document.getElementById("generate");
+
+    button.addEventListener("click", async () => {
+      const topic = document.getElementById("topic").value.trim();
+      const style = document.getElementById("style").value;
+      const duration = document.getElementById("duration").value;
+      const status = document.getElementById("status");
+      const result = document.getElementById("result");
+
+      if (!topic) {
+        status.textContent = "पहले वीडियो का विषय लिखें।";
+        return;
+      }
+
+      button.disabled = true;
+      status.textContent = "स्क्रिप्ट तैयार हो रही है...";
+      result.textContent = "";
+
+      try {
+        const response = await fetch("/api/generate-script", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ topic, style, duration })
+        });
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "स्क्रिप्ट नहीं बन पाई।");
+
+        result.textContent = data.script;
+        status.textContent = "स्क्रिप्ट तैयार है!";
+      } catch (error) {
+        status.textContent = error.message ||
+          "अभी स्क्रिप्ट नहीं बन पाई। बाद में कोशिश करें।";
+      } finally {
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
